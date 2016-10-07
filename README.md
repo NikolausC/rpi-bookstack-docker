@@ -1,8 +1,8 @@
-[![](https://images.microbadger.com/badges/image/solidnerd/bookstack.svg)](http://microbadger.com/images/solidnerd/bookstack "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/budrom/rpi-bookstack.svg)](https://microbadger.com/images/budrom/rpi-bookstack "Get your own image badge on microbadger.com")
 
-# Docker Image For [BookStack](https://github.com/ssddanbrown/BookStack)
+# Docker Image with [BookStack](https://github.com/ssddanbrown/BookStack) for RaspberryPi (ARMv7)
 
-## Current Version: [0.12.1](https://github.com/SolidNerd/docker-bookstack/blob/master/Dockerfile)
+## Current Version: [0.12.1](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
 
 ## Quickstart
 With Docker Compose is a Quickstart very easy. Run the following command:
@@ -15,7 +15,7 @@ and after that open your Browser and go to [http://localhost:8080](http://localh
 
 ## Issues
 
-If you have any issues feel free to create an [issue on GitHub](https://github.com/solidnerd/docker-bookstack/issues). 
+If you have any issues feel free to create an [issue on GitHub](https://github.com/budrom/docker-rpi-bookstack/issues). 
 
 
 ## How to use the Image without Docker compose

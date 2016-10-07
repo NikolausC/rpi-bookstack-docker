@@ -105,4 +105,6 @@ cd /var/www/BookStack/ && php artisan key:generate && php artisan migrate --forc
 
 chown -R www-data:www-data /var/www/BookStack/public/uploads && chmod -R 775 /var/www/BookStack/public/uploads
 
-exec apache2-foreground
+php-fpm --daemonize
+
+nginx -g 'daemon off;'

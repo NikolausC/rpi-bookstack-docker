@@ -1,0 +1,18 @@
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name bookstack;
+
+  root /var/www/BookStack/public;
+  index index.php index.html;
+
+  location / {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+  
+  location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass localhost:9000;
+  }
+}

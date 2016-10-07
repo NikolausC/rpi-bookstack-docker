@@ -2,7 +2,7 @@ version: '2'
 services:
 
   mysql:
-    image: mysql:5.7.12
+    image: hypriot/rpi-mysql:latest
     environment:
     - MYSQL_ROOT_PASSWORD=secret
     - MYSQL_DATABASE=bookstack
@@ -12,7 +12,7 @@ services:
     - ./mysql:/var/lib/mysql
 
   bookstack:
-    image: solidnerd/bookstack:0.12.1
+    image: budrom/rpi-bookstack:0.12.1
     depends_on:
     - mysql
     environment:

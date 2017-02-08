@@ -1,10 +1,10 @@
 FROM budrom/rpi-php:7.0-fpm
 
 ENV BOOKSTACK=BookStack \
-    BOOKSTACK_VERSION=0.12.1
+    BOOKSTACK_VERSION=0.14.3
 
-RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev wget libldap2-dev nginx\
-   && docker-php-ext-install pdo pdo_mysql mbstring zip \
+RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev wget libldap2-dev nginx libtidy-dev\
+   && docker-php-ext-install pdo pdo_mysql mbstring zip tidy \
    && docker-php-ext-configure ldap --with-libdir=lib/arm-linux-gnueabihf/ \
    && docker-php-ext-install ldap \
    && docker-php-ext-configure gd --with-freetype-dir=usr/include/ --with-jpeg-dir=/usr/include/ \

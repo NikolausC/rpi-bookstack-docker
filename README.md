@@ -2,7 +2,13 @@
 
 # Docker Image with [BookStack](https://github.com/ssddanbrown/BookStack) for RaspberryPi (ARMv7)
 
-## Current Version: [0.12.1](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
+## Current Version: [0.14.3](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
+
+## About
+
+This is a fork from [solidnerd](https://github.com/solidnerd/docker-bookstack) modified for ARM architecture support (RaspberryPi in particular).
+* Base image is my build of official PHP 7.0 image for ARM with FPM on Raspbian.
+* Changed Apache to Nginx.
 
 ## Quickstart
 With Docker Compose is a Quickstart very easy. Run the following command:
@@ -11,25 +17,13 @@ With Docker Compose is a Quickstart very easy. Run the following command:
 docker-compose up
 ```
 
-and after that open your Browser and go to [http://localhost:8080](http://localhost:8080) .
+and after that open your Browser and go to [http://localhost:80](http://localhost:80) .
 
 ## Issues
 
-If you have any issues feel free to create an [issue on GitHub](https://github.com/budrom/docker-rpi-bookstack/issues). 
-
+If you have any issues feel free to create an [issue on GitHub](https://github.com/budrom/docker-rpi-bookstack/issues).
 
 ## How to use the Image without Docker compose
-Networking changed in Docker v1.9, so you need to do one of the following steps.
-
-### Docker < v1.9
-1. MySQL Container:
-```
-docker run -d --name bookstack-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=bookstack -e MYSQL_USER=bookstack -e MYSQL_PASSWORD=secret mysql
-```
-2. BookStack Container:
-```
-docker run --name my-bookstack -d --link bookstack-mysql:mysql -p 8080:80 solidnerd/bookstack:0.12.1
-```
 
 ### Docker 1.9+
 1. Create a shared network:
@@ -43,7 +37,7 @@ docker run -d --net bookstack_nw  \
 -e MYSQL_USER=bookstack \
 -e MYSQL_PASSWORD=secret \
  --name="bookstack_db" \
- mysql
+ hypriot/rpi-mysql
 ```
 
 3. Create BookStack Container
@@ -53,13 +47,9 @@ docker run -d --net bookstack_nw  \
 -e DB_DATABASE=bookstack \
 -e DB_USERNAME=bookstack \
 -e DB_PASSWORD=secret \
--p 8080:80
- solidnerd/bookstack
+-p 80:80
+ budrom/rpi-bookstack
 ```
 
-After the steps you can visit [http://localhost:8080](http://localhost:8080) .
+After the steps you can visit [http://localhost:80](http://localhost:80) .
 
-
-## Inspiration
-
-It comes from [Kilhog/docker-bookstack](https://github.com/Kilhog/docker-bookstack). He did the initially work it was a fork previously but know i want to go in a other direction.

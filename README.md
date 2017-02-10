@@ -7,7 +7,7 @@
 ## About
 
 This is a fork from [solidnerd](https://github.com/solidnerd/docker-bookstack) modified for ARM architecture support (RaspberryPi in particular).
-* Base image is my build of official PHP 7.0 image for ARM with FPM on Raspbian.
+* Base image is my build of official PHP 7.0 image for ARM with FPM on **Raspbian** or **Alpine**.
 * Changed Apache to Nginx.
 
 ## Quickstart

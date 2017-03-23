@@ -1,7 +1,7 @@
 FROM budrom/rpi-php:7-fpm-alpine
 
 ENV BOOKSTACK=BookStack \
-    BOOKSTACK_VERSION=0.14.3
+    BOOKSTACK_VERSION=0.15.2
 
 RUN apk add --no-cache git zlib-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev wget openldap-dev nginx bash \
    && apk add tidyhtml-dev --no-cache --repository http://nl.alpinelinux.org/alpine/edge/community/ \

@@ -2,7 +2,7 @@
 
 # Docker Image with [BookStack](https://github.com/ssddanbrown/BookStack) for RaspberryPi (ARMv7)
 
-## Current Version: [0.14.3](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
+## Current Version: [0.17.0](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
 
 ## About
 

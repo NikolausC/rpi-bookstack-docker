@@ -1,7 +1,7 @@
-FROM budrom/rpi-php:7-fpm-alpine
+FROM budrom/rpi-php:7.0-fpm-alpine
 
 ENV BOOKSTACK=BookStack \
-    BOOKSTACK_VERSION=0.16.2 \
+    BOOKSTACK_VERSION=0.17.0 \
     BOOKSTACK_HOME="/var/www/bookstack"
 
 RUN apk add --no-cache git zlib-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev wget openldap-dev nginx bash \

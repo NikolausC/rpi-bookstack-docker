@@ -1,10 +1,10 @@
-FROM arm32v7/php:7.1-fpm-buster
+FROM arm32v7/php:7.1-fpm
 
 ENV BOOKSTACK=BookStack \
     BOOKSTACK_VERSION=0.26.2 \
     BOOKSTACK_HOME="/var/www/bookstack"
 
-RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev wget libldap2-dev nginx libtidy-dev\
+RUN apt-get update && apt-get install -y git zlib1g-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev wget libldap2-dev nginx libtidy-dev \
    && docker-php-ext-install pdo pdo_mysql mbstring zip tidy \
    && docker-php-ext-configure ldap --with-libdir=lib/arm-linux-gnueabihf/ \
    && docker-php-ext-install ldap \

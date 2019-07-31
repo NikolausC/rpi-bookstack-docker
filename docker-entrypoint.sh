@@ -1,4 +1,5 @@
-:'
+#!/bin/bash
+: '
 The MIT License (MIT)
 
  Copyright (c) 2017 Niclas Mietz
@@ -21,7 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '
-#!/bin/bash
 set -e
 
 echoerr() { echo "$@" 1>&2; }

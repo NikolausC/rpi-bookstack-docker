@@ -1,35 +1,24 @@
-[![](https://images.microbadger.com/badges/image/budrom/rpi-bookstack.svg)](https://microbadger.com/images/budrom/rpi-bookstack "Get your own image badge on microbadger.com")
-
 # Docker Image with [BookStack](https://github.com/ssddanbrown/BookStack) for RaspberryPi (ARMv7)
 
-## Current Version: [0.17.0](https://github.com/budrom/docker-rpi-bookstack/blob/master/Dockerfile)
+## Bookstack Version: 0.26.2
 
 ## About
 
-This is a fork from [solidnerd](https://github.com/solidnerd/docker-bookstack) modified for ARM architecture support (RaspberryPi in particular).
-* Base image is my build of official PHP 7.0 image for ARM with FPM on **Raspbian** or **Alpine**.
-* Changed Apache to Nginx.
+The repo is forked from [budrom](https://github.com/budrom/docker-rpi-bookstack)'s BookStack Docker ARM image 
+with the following changes to the Dockerfile:
+* Uses the latest stable version of BookStack
+* Uses the newer `arm32v7/php:7.1-fpm-buster` image
 
-## Quickstart
-With Docker Compose is a Quickstart very easy. Run the following command:
-
-```
-docker-compose up
-```
-
-and after that open your Browser and go to [http://localhost:80](http://localhost:80) .
-
-## Issues
-
-If you have any issues feel free to create an [issue on GitHub](https://github.com/budrom/docker-rpi-bookstack/issues).
-
-## How to use the Image without Docker compose
+## How to use the Image
 
 ### Docker 1.9+
-1. Create a shared network:
+1. Build the Docker image:
+   `docker build -t rpi-bookstack .`
+   
+2. Create a shared network:
    `docker network create bookstack_nw`
 
-2.  MySQL container :
+3. Create MySQL container:
 ```
 docker run -d --net bookstack_nw  \
 -e MYSQL_ROOT_PASSWORD=secret \
@@ -40,16 +29,16 @@ docker run -d --net bookstack_nw  \
  hypriot/rpi-mysql
 ```
 
-3. Create BookStack Container
+4. Create BookStack Container:
 ```
 docker run -d --net bookstack_nw  \
 -e DB_HOST=bookstack_db \
 -e DB_DATABASE=bookstack \
 -e DB_USERNAME=bookstack \
 -e DB_PASSWORD=secret \
--p 80:80
- budrom/rpi-bookstack
+-p 8080:80
+ rpi-bookstack:latest
 ```
 
-After the steps you can visit [http://localhost:80](http://localhost:80) .
+After the steps you can visit [http://localhost:8080](http://localhost:8080) .
 

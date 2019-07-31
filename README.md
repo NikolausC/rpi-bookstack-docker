@@ -36,9 +36,8 @@ docker run -d --net bookstack_nw  \
 -e DB_DATABASE=bookstack \
 -e DB_USERNAME=bookstack \
 -e DB_PASSWORD=secret \
--p 8080:80
+-p 8080:80 \
  rpi-bookstack:latest
 ```
 
-After the steps you can visit [http://localhost:8080](http://localhost:8080) .
-
+After completing the steps above, you can access your installation at [http://localhost:8080](http://localhost:8080).

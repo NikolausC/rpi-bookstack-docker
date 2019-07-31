@@ -1,17 +1,42 @@
+:'
+The MIT License (MIT)
+
+ Copyright (c) 2017 Niclas Mietz
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'
 #!/bin/bash
 set -e
 
-DB_PORT=${DB_PORT:-3306}
-
 echoerr() { echo "$@" 1>&2; }
 
-if [ ! -f '/var/www/BookStack/.env' ]; then
+# Split out host and port from DB_HOST env variable
+IFS=":" read -r DB_HOST_NAME DB_PORT <<< "$DB_HOST"
+DB_PORT=${DB_PORT:-3306}
+
+if [ ! -f "$BOOKSTACK_HOME/.env" ]; then
   if [[ "${DB_HOST}" ]]; then
-  cat > /var/www/BookStack/.env <<EOF
+  cat > "$BOOKSTACK_HOME/.env" <<EOF
       # Environment
       APP_ENV=production
       APP_DEBUG=${APP_DEBUG:-false}
-      APP_KEY=${APP_KEY:-SomeRandomString}
+      APP_KEY=${APP_KEY:-SomeRandomStringWith32Characters}
 
       # The below url has to be set if using social auth options
       # or if you are not using BookStack at the root path of your domain.
@@ -19,7 +44,6 @@ if [ ! -f '/var/www/BookStack/.env' ]; then
 
       # Database details
       DB_HOST=${DB_HOST:-localhost}
-      DB_PORT=${DB_PORT:-3306}
       DB_DATABASE=${DB_DATABASE:-bookstack}
       DB_USERNAME=${DB_USERNAME:-bookstack}
       DB_PASSWORD=${DB_PASSWORD:-password}
@@ -78,16 +102,17 @@ if [ ! -f '/var/www/BookStack/.env' ]; then
       MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-null}
       # URL used for social login redirects, NO TRAILING SLASH
 EOF
+sed -ie "s/single/errorlog/g" config/app.php
     else
-        echo >&2 'error: missing DB_PORT or DB_HOST environment variables'
+        echo >&2 'error: missing DB_HOST environment variable'
         exit 1
     fi
 fi
 
-echoerr wait-for-db: waiting for ${DB_HOST}:${DB_PORT}
+echoerr "wait-for-db: waiting for ${DB_HOST_NAME}:${DB_PORT}"
 
 timeout 15 bash <<EOT
-while ! (echo > /dev/tcp/${DB_HOST}/${DB_PORT}) >/dev/null 2>&1;
+while ! (echo > /dev/tcp/${DB_HOST_NAME}/${DB_PORT}) >/dev/null 2>&1;
     do sleep 1;
 done;
 EOT
@@ -96,15 +121,25 @@ RESULT=$?
 if [ $RESULT -eq 0 ]; then
   # sleep another second for so that we don't get a "the database system is starting up" error
   sleep 1
-  echoerr wait-for-db: done
+  echoerr "wait-for-db: done"
 else
-  echoerr wait-for-db: timeout out after 15 seconds waiting for ${DB_HOST}:${DB_PORT}
+  echoerr "wait-for-db: timeout out after 15 seconds waiting for ${DB_HOST_NAME}:${DB_PORT}"
 fi
 
-cd /var/www/BookStack/ && php artisan key:generate && php artisan migrate --force
+composer install
 
-chown -R www-data:www-data /var/www/BookStack/public/uploads && chmod -R 775 /var/www/BookStack/public/uploads
+php artisan key:generate
+
+php artisan migrate --force
+
+
+echo "Setting folder permissions for uploads"
+chown -R www-data:www-data public/uploads && chmod -R 775 public/uploads
+chown -R www-data:www-data storage/uploads && chmod -R 775 storage/uploads
+
+php artisan cache:clear
+
+php artisan view:clear
 
 php-fpm --daemonize
-
 nginx -g 'daemon off;'

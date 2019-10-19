@@ -16,7 +16,7 @@ has been incorporated, to daemonize php-fpm and run nginx in the foreground, ins
 ## How to use the Image
 
 ### Docker 1.9+
-1. Build the Docker image:
+1. (Optional) Build the Docker image:
    `docker build -t rpi-bookstack-docker .`
    
 2. Create a shared network:
@@ -32,16 +32,19 @@ docker run -d --net bookstack_nw  \
 -e MYSQL_DATABASE=bookstack \
 -e MYSQL_USER=bookstack \
 -e MYSQL_PASSWORD=secret \
- --name="bookstack_db" \
- -v bookstack_mysql:/var/lib/mysql \
- hypriot/rpi-mysql
+--name="bookstack_db" \
+-v bookstack_mysql:/var/lib/mysql \
+hypriot/rpi-mysql
 ```
 
 5. Create the data volumes for BookStack
-`docker volume create bookstack_uploads`
-`docker volume create bookstack_storage`
+```
+docker volume create bookstack_uploads
+docker volume create bookstack_storage
+```
 
-4. Create BookStack Container:
+6. Create BookStack Container:
+Change the image name if you build it locally.
 ```
 docker run -d --net bookstack_nw  \
 -e DB_HOST=bookstack_db \
@@ -49,9 +52,10 @@ docker run -d --net bookstack_nw  \
 -e DB_USERNAME=bookstack \
 -e DB_PASSWORD=secret \
 -p 8080:80 \
+--name="bookstack_app" \
 -v bookstack_uploads:/var/www/bookstack/public/uploads \
 -v bookstack_storage:/var/www/bookstack/public/storage \
- rpi-bookstack-docker:latest
+nikolausc/bookstack-pi:latest
 ```
 
 After completing the steps above, you can access your installation at [http://localhost:8080](http://localhost:8080).

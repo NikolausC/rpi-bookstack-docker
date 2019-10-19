@@ -44,7 +44,7 @@ docker volume create bookstack_storage
 ```
 
 6. Create BookStack Container:
-Change the image name if you build it locally.
+Change the image name if you build it locally. The container currently requires restarting after the initial setup, hence the restart policy.
 ```
 docker run -d --net bookstack_nw  \
 -e DB_HOST=bookstack_db \
@@ -55,6 +55,7 @@ docker run -d --net bookstack_nw  \
 --name="bookstack_app" \
 -v bookstack_uploads:/var/www/bookstack/public/uploads \
 -v bookstack_storage:/var/www/bookstack/public/storage \
+--restart always \
 nikolausc/bookstack-pi:latest
 ```
 
